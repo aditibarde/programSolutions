@@ -1,0 +1,72 @@
+public static void main(String[] args) {
+		int [] players = {10,1, 9, 11,8};
+		//op =  3 as 8 is runner-up
+
+		//check if count<1, return "cannot play match";
+		if(players.length<2) System.out.println("match cannot happen");
+		else{
+			//convert array to Player object list
+			List<Player> list= new ArrayList<>();
+			for(int i=0;i< players.length; i++){
+				list.add(new Player(players[i], i));
+			}
+			int result=findRunnerUpIndex(list);
+			System.out.println("runner-up index: "+result);
+		}
+
+	}
+	public static int findRunnerUpIndex(List<Player> players){
+
+		if(players.size()==2){
+			return findMin(players.get(0),players.get(1)).getIndex();
+		}else{
+			return findRunnerUpIndex(findWinners(players));
+		}
+		//1. check if count is 2, if yes, find runner-up and return runner-ups index
+		//2. check if list contains even elements, if not, add an element 0 at the end of list
+		//3. now list will always contain even elements. form a lot of two and check which one is greater.
+		//4. save values in Player winner and Player runner-up for each match.
+		//5. Once first round is complete, return a list of winners. repeat from step 1.
+	}
+
+	private static List<Player> findWinners(List<Player> players) {
+		List<Player> winners = new ArrayList<>();
+		if(players.size()%2!=0) players.add(new Player(0, players.size()));
+		for(int i = 0; i< players.size()-1; i=i+2){
+			winners.add(findMax(players.get(i), players.get(i+1)));
+		}
+		return winners;
+	}
+
+	static Player findMin(Player p1, Player p2){
+		if(p1.getScore()<p2.getScore()) return p1; else return p2;
+	}
+	static Player findMax(Player p1, Player p2){
+		if(p1.getScore()<p2.getScore()) return p2; else return p1;
+	}
+
+	static class Player{
+		int score;
+		int index;
+
+		public Player(int score, int index) {
+			this.score = score;
+			this.index = index;
+		}
+
+		public int getScore() {
+			return score;
+		}
+
+		public void setScore(int score) {
+			this.score = score;
+		}
+
+		public int getIndex() {
+			return index;
+		}
+
+		public void setIndex(int index) {
+			this.index = index;
+		}
+	}
