@@ -1,0 +1,28 @@
+public static void main(String[] args) {
+		String input = "1234#$65*&901";
+		String reversed = reverseStringWithSpecialChars(input);
+		System.out.println(reversed); // Output: "109#$56*&321"
+	}
+
+	public static String reverseStringWithSpecialChars(String input) {
+		char[] chars = input.toCharArray();
+		int left = 0;
+		int right = chars.length - 1;
+
+		// Reverse the non-special characters
+		while (left < right) {
+			if (!Character.isLetterOrDigit(chars[left])) {
+				left++;
+			} else if (!Character.isLetterOrDigit(chars[right])) {
+				right--;
+			} else {
+				char temp = chars[left];
+				chars[left] = chars[right];
+				chars[right] = temp;
+				left++;
+				right--;
+			}
+		}
+
+		return new String(chars);
+	}
