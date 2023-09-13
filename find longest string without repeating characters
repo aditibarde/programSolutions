@@ -1,0 +1,28 @@
+public static void main(String[] args) {
+		String input = "abcbbacbb";
+		String longestSubstring = findLongestSubstring(input);
+		System.out.println("Longest Substring without Repeating Characters: " + longestSubstring);
+	}
+
+	public static String findLongestSubstring(String s) {
+		int n = s.length();
+		int left = 0, right = 0;
+		HashSet<Character> uniqueChars = new HashSet<>();
+		String longestSubstring = "";
+
+		while (right < n) {
+			if (!uniqueChars.contains(s.charAt(right))) {
+				uniqueChars.add(s.charAt(right));
+				right++;
+				String currentSubstring = s.substring(left, right);
+				if (currentSubstring.length() > longestSubstring.length()) {
+					longestSubstring = currentSubstring;
+				}
+			} else {
+				uniqueChars.remove(s.charAt(left));
+				left++;
+			}
+		}
+
+		return longestSubstring;
+	}
